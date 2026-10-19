@@ -277,7 +277,7 @@ Los tests de `IsEmpty` ya están activos en `StringTest.c`. Corré `make test` y
 
 **P1** — `IsEmpty` podría haberse escrito también como `return s[0] == '\0'`. ¿Son equivalentes? ¿Por qué?
 
-> R:
+> R:Si, son equivalentes ya que el return `s[0] == '\0'` referencia al primer valor igual que el `char: *s`.Ambos comparar si el primer caracher es vacio
 
 ---
 
@@ -328,14 +328,17 @@ make test
 
 **P2** — ¿Qué hace `s + 1`? ¿Por qué avanza al siguiente carácter y no al siguiente byte?
 
-> R:
+> R: Por que es basicamente como funciona la aritmetica de punteros, como *s es un char, avanza al siguiente caracter y no al byte (int)
+
 
 **P3** — Si llamaras a `GetLength(NULL)`, ¿qué pasaría? ¿Por qué las precondiciones del contrato dicen `s != NULL`?
 
-> R:
+> R: GetLength(NULL) llama a IsEmpty(NULL), que ejecuta *s: desreferenciar un puntero nulo es
+comportamiento indefinido. Por eso el contrato exige s != NULL: es una precondición que debe cumplir quien
+llama; la función no la verifica.
 
 ```
-GETLENGTH_PASA=
+GETLENGTH_PASA=SI
 ```
 _(escribí SI cuando todos los tests de GetLength pasen)_
 
@@ -367,7 +370,10 @@ El `while` termina cuando alguna de las dos cadenas llega a `'\0'`. Después dev
 
 **P4** — ¿Qué dos casos están mal cubiertos por `return 1`? Describí un ejemplo para cada uno.
 
-> R:
+> R: El while corta cuando alguna cadena llega a '\0' y retorna 1 sin mirar la otra. Casos mal cubiertos: (1) s1
+más corta que s2: AreEqual("ab", "abc") devuelve 1. (2) s2 más corta que s1: AreEqual("abc", "ab")
+devuelve 1. Son iguales solo si ambas terminaron.
+
 
 #### Corrección
 
@@ -384,7 +390,7 @@ make test
 ```
 
 ```
-AREEQUAL_PASA=
+AREEQUAL_PASA=SI
 ```
 _(escribí SI cuando todos los tests de AreEqual pasen)_
 
@@ -414,7 +420,7 @@ int AreDecimalDigits(const char *s) {
 
 **P5** — ¿Por qué la cadena vacía no debería considerarse un conjunto de dígitos decimales? Pensalo desde la especificación matemática.
 
-> R:
+> R:Exige al menos un carácter y que todos sean dígitos. La cadena vacía no contiene ningún dígito, por lo tanto no representa un número decimal.
 
 #### Corrección
 
@@ -425,7 +431,7 @@ make test
 ```
 
 ```
-AREDECIMALDIGITS_PASA=
+AREDECIMALDIGITS_PASA=SI
 ```
 _(escribí SI cuando todos los tests de AreDecimalDigits pasen)_
 
@@ -452,7 +458,7 @@ make test
 ```
 
 ```
-CONTAINS_PASA=
+CONTAINS_PASA=SI
 ```
 _(escribí SI cuando todos los tests de Contains pasen)_
 
