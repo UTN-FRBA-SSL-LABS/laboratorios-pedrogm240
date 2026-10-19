@@ -473,7 +473,10 @@ Antes de implementar, discutí con tu equipo:
 
 **P6** — Conclusión de la discusión:
 
-> R:
+> R:Es correcto tenerla en un módulo separado. ToInteger toma un String pero devuelve un Integer: cruza la
+frontera entre tipos. Un módulo debe tener una responsabilidad clara (cohesión): String opera solo con
+cadenas y Conversion con conversiones entre tipos. Cada uno expone su interfaz (.h) y quien lo usa depende
+solo de su contrato
 
 ---
 
@@ -500,7 +503,9 @@ int ToInteger(const char *s) {
 
 **P7** — El loop acumula correctamente el valor en `resultado`. ¿Qué está mal en el `return`?
 
-> R:
+> R: El return devuelve signo (1 o -1) y descarta resultado, que ya tenía el valor acumulado. Debe devolver
+signo * resultado.
+
 
 #### Corrección
 
@@ -512,10 +517,11 @@ make test
 
 **P8** — La expresión `*s - '0'` convierte un carácter dígito al entero correspondiente. ¿Por qué funciona? ¿Qué devuelve `'3' - '0'`?
 
-> R:
+> R:En C char es un tipo entero, por lo que se puede restar. En ASCII los dígitos tienen códigos consecutivos ('0'
+= 48 … '9' = 57): restar el código de '0' da la posición del dígito, que es su valor. '3' - '0' = 51 - 48 = 3.
 
 ```
-TOINTEGER_PASA=
+TOINTEGER_PASA=SI
 ```
 _(escribí SI cuando todos los tests de ToInteger pasen)_
 
@@ -568,7 +574,10 @@ foo
 
 **P9** — ¿Por qué `(void)argc` suprime un warning? ¿Cuándo sería necesario usar `argc`?
 
-> R:
+> R:argc no se usa en enlineas (el fin se detecta con NULL) y con -Wall -Wextra el compilador avisa de
+parámetro no usado. (void)argc; evalúa la expresión y la descarta, marcando que es intencional y
+silenciando el warning. Se necesita argc para saber cuántos argumentos llegaron, por ejemplo para validar
+argc < 2 como en mayorlongitud.
 
 ---
 
@@ -595,7 +604,7 @@ Salida esperada:
 ```
 
 ```
-LONGITUDES_PASA=
+LONGITUDES_PASA=SI
 ```
 _(SI o NO)_
 
@@ -622,7 +631,7 @@ make mayorlongitud
 ```
 
 ```
-MAYORLONGITUD_PASA=
+MAYORLONGITUD_PASA=SI 
 ```
 _(SI o NO)_
 
@@ -641,7 +650,7 @@ make todosiguales
 ```
 
 ```
-TODOSIGUALES_PASA=
+TODOSIGUALES_PASA=SI
 ```
 _(SI o NO)_
 
@@ -658,7 +667,7 @@ make suma
 ```
 
 ```
-SUMA_PASA=
+SUMA_PASA=SI
 ```
 _(SI o NO)_
 

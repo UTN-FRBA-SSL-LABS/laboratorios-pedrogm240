@@ -15,7 +15,8 @@ int main(int argc, char *argv[]) {
     char *mayor = argv[1];
     for (char **arg = argv + 2; *arg != NULL; arg++)
         if (GetLength(*arg) > GetLength(mayor))
-            mayor = NULL; /* completar: ¿que deberia guardarse en mayor? */
-    printf("%s\n", mayor);
+        mayor = *arg; /* <-- cambio: antes `NULL` */
+        printf("%s\n", mayor);
+
     return 0;
 }
